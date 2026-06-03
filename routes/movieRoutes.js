@@ -2,6 +2,8 @@ const express = require("express");
 
 const movieController = require("../controllers/movieController");
 
+const isLoggedIn = require("../middleware/isLoggedIn");
+
 const router = express.Router();
 
 // router.get("/test", async (req, res) => {
@@ -20,15 +22,15 @@ const router = express.Router();
 //     res.send("Test movie created");
 // });
 
-router.get("/new", movieController.renderNewForm);
+router.get("/new", isLoggedIn, movieController.renderNewForm);
 
-router.post("/", movieController.createMovie);
+router.post("/", isLoggedIn, movieController.createMovie);
 
-router.get("/:id/edit", movieController.renderEditForm);
+router.get("/:id/edit", isLoggedIn, movieController.renderEditForm);
 
-router.put("/:id", movieController.updateMovie);
+router.put("/:id", isLoggedIn, movieController.updateMovie);
 
-router.delete("/:id", movieController.deleteMovie);
+router.delete("/:id", isLoggedIn, movieController.deleteMovie);
 
 router.get("/:id", movieController.show);
 

@@ -6,6 +6,16 @@ const mongoose = require("mongoose");
 
 const methodOverride = require("method-override");
 
+const authRoutes = require("./routes/authRoutes");
+
+const session = require("express-session");
+
+const passport = require("passport");
+
+const LocalStrategy = require("passport-local");
+
+const User = require("./models/User");
+
 const app = express();
 
 app.use(express.urlencoded({ extended: true }));
@@ -23,7 +33,41 @@ mongoose
         console.log(err);
     });
 
+const sessionConfig = {
+    secret: "mysecret",
+
+    resave: false,
+
+    saveUninitialized: true
+};
+
+app.use(session(sessionConfig));
+
+app.use(passport.initialize());
+
+app.use(passport.session());
+
+passport.use(
+    new LocalStrategy(User.authenticate())
+);
+
+passport.serializeUser(
+    User.serializeUser()
+);
+
+passport.deserializeUser(
+    User.deserializeUser()
+);
+
+app.use((req, res, next) => {
+    console.log(req.user);
+
+    next();
+});
+
 app.use("/movies", movieRoutes);
+
+app.use("/", authRoutes);
 
 const port = 3000;
 
