@@ -53,7 +53,213 @@
 
         </div>
 
+        <hr>
+
+        <% if (!currentUser) { %>
+
+        <hr>
+
+        <h3>Login to add a review</h3>
+
+    <% } else if (userReview) { %>
+
+        <hr>
+
+        <h3>Your Review</h3>
+
+        <p>
+            Rating: <%= userReview.rating %>
+        </p>
+
+        <p>
+            <%= userReview.text %>
+        </p>
+
+        <button
+            id="showEditReviewForm"
+            class="btn btn-warning"
+        >
+            Edit Review
+        </button>
+
+        <form
+            id="editReviewForm"
+            action="/movies/<%= movie._id %>/reviews/<%= userReview._id %>?_method=PUT"
+            method="POST"
+            style="display:none;"
+        >
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Rating
+                </label>
+
+                <select
+                    name="rating"
+                    class="form-control"
+                >
+                    <% for(let i = 1; i <= 5; i++) { %>
+
+                        <option
+                            value="<%= i %>"
+                            <%= userReview.rating === i ? "selected" : "" %>
+                        >
+                            <%= i %>
+                        </option>
+
+                    <% } %>
+                </select>
+
+            </div>
+
+            <div class="mb-3">
+
+                <label class="form-label">
+                    Review
+                </label>
+
+                <textarea
+                    name="text"
+                    class="form-control"
+                    rows="4"
+                ><%= userReview.text %></textarea>
+
+            </div>
+
+            <button class="btn btn-primary">
+                Update Review
+            </button>
+
+        </form>
+
+        <form
+            action="/movies/<%= movie._id %>/reviews/<%= userReview._id %>?_method=DELETE"
+            method="POST"
+            class="mt-2"
+        >
+
+            <button
+                class="btn btn-danger"
+            >
+                Delete Review
+            </button>
+
+        </form>
+
+    <% } else { %>
+
+            <h3>Add Review</h3>
+
+            <form
+                action="/movies/<%= movie._id %>/reviews"
+                method="POST"
+            >
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Rating
+                    </label>
+
+                    <select
+                        name="rating"
+                        class="form-control"
+                        required
+                    >
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+
+                </div>
+
+                <div class="mb-3">
+
+                    <label class="form-label">
+                        Review
+                    </label>
+
+                    <textarea
+                        name="text"
+                        class="form-control"
+                        rows="4"
+                        required
+                    ></textarea>
+
+                </div>
+
+                <button class="btn btn-primary">
+                    Submit Review
+                </button>
+
+            </form>
+
+        <% } %>
+
+        <hr>
+
+        <hr>
+
+        <h3>Community Reviews</h3>
+
+        <% for(let review of movie.reviews) { %>
+
+            <% if (
+                !currentUser ||
+                review.author._id.toString() !== currentUser._id.toString()
+            ) { %>
+
+                <div class="card mb-3">
+
+                    <div class="card-body">
+
+                        <h5>
+                            <%= review.author.username %>
+                        </h5>
+
+                        <p>
+                            Rating: <%= review.rating %>
+                        </p>
+
+                        <p>
+                            <%= review.text %>
+                        </p>
+
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        <% } %>
+
     </div>
 
+    <script>
+
+        const editBtn =
+            document.getElementById(
+                "showEditReviewForm"
+            );
+
+        if(editBtn){
+
+            editBtn.addEventListener(
+                "click",
+                function(){
+
+                    document.getElementById(
+                        "editReviewForm"
+                    ).style.display = "block";
+
+                }
+            );
+
+        }
+
+    </script>
 </body>
 </html>

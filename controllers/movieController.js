@@ -9,9 +9,31 @@ module.exports.index = async (req, res) => {
 module.exports.show = async (req, res) => {
     const { id } = req.params;
 
-    const movie = await Movie.findById(id);
+    const movie = await Movie.findById(id)
+    .populate({
+        path: "reviews",
+        populate: {
+            path: "author"
+        }
+    });
 
-    res.render("movies/show", { movie });
+    let userReview = null;
+
+    if (req.user) {
+
+        userReview = movie.reviews.find(
+            review =>
+                review.author._id.toString() ===
+                req.user._id.toString()
+        );
+
+    }
+
+    res.render("movies/show", {
+        movie,
+        userReview,
+        currentUser: req.user
+    });
 };
 
 module.exports.renderNewForm = (req, res) => {

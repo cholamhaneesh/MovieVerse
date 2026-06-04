@@ -33,6 +33,13 @@ const movieSchema = new Schema({
         default: 0
     },
 
+    reviews: [
+        {
+            type : Schema.Types.ObjectId,
+            ref: "Review"
+        }
+    ],
+
     createdAt: {
         type: Date,
         default: Date.now

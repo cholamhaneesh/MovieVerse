@@ -4,7 +4,13 @@ const movieController = require("../controllers/movieController");
 
 const isLoggedIn = require("../middleware/isLoggedIn");
 
+const isAdmin = require("../middleware/isAdmin");
+
+const reviewRoutes = require("./reviewRoutes");
+
 const router = express.Router();
+
+router.use("/:movieId/reviews", reviewRoutes);
 
 // router.get("/test", async (req, res) => {
 //     const Movie = require("../models/Movie");
@@ -22,15 +28,15 @@ const router = express.Router();
 //     res.send("Test movie created");
 // });
 
-router.get("/new", isLoggedIn, movieController.renderNewForm);
+router.get("/new", isLoggedIn, isAdmin, movieController.renderNewForm);
 
-router.post("/", isLoggedIn, movieController.createMovie);
+router.post("/", isLoggedIn, isAdmin, movieController.createMovie);
 
-router.get("/:id/edit", isLoggedIn, movieController.renderEditForm);
+router.get("/:id/edit", isLoggedIn, isAdmin, movieController.renderEditForm);
 
-router.put("/:id", isLoggedIn, movieController.updateMovie);
+router.put("/:id", isLoggedIn, isAdmin, movieController.updateMovie);
 
-router.delete("/:id", isLoggedIn, movieController.deleteMovie);
+router.delete("/:id", isLoggedIn, isAdmin, movieController.deleteMovie);
 
 router.get("/:id", movieController.show);
 
