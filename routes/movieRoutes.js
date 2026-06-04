@@ -8,6 +8,11 @@ const isAdmin = require("../middleware/isAdmin");
 
 const reviewRoutes = require("./reviewRoutes");
 
+const validateMovie = require("../middleware/validateMovie");
+
+const wrapAsync =
+    require("../utils/wrapAsync");
+
 const router = express.Router();
 
 router.use("/:movieId/reviews", reviewRoutes);
@@ -28,17 +33,17 @@ router.use("/:movieId/reviews", reviewRoutes);
 //     res.send("Test movie created");
 // });
 
-router.get("/new", isLoggedIn, isAdmin, movieController.renderNewForm);
+router.get("/new", isLoggedIn, isAdmin, wrapAsync(movieController.renderNewForm));
 
-router.post("/", isLoggedIn, isAdmin, movieController.createMovie);
+router.post("/", isLoggedIn, isAdmin, validateMovie, wrapAsync(movieController.createMovie));
 
-router.get("/:id/edit", isLoggedIn, isAdmin, movieController.renderEditForm);
+router.get("/:id/edit", isLoggedIn, isAdmin, wrapAsync(movieController.renderEditForm));
 
-router.put("/:id", isLoggedIn, isAdmin, movieController.updateMovie);
+router.put("/:id", isLoggedIn, isAdmin, validateMovie, wrapAsync(movieController.updateMovie));
 
-router.delete("/:id", isLoggedIn, isAdmin, movieController.deleteMovie);
+router.delete("/:id", isLoggedIn, isAdmin, wrapAsync(movieController.deleteMovie));
 
-router.get("/:id", movieController.show);
+router.get("/:id", wrapAsync(movieController.show));
 
 router.get("/", movieController.index);
 

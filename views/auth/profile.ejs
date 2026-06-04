@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+    <title>Profile</title>
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+</head>
+<body>
+
+    <%- include("../includes/navbar") %>
+
+    <div class="container mt-5">
+
+        <h1>Profile</h1>
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h4>
+                    Username:
+                    <%= currentUser.username %>
+                </h4>
+
+                <p>
+                    Email:
+                    <%= currentUser.email %>
+                </p>
+
+                <p>
+                    Role:
+                    <%= currentUser.role %>
+                </p>
+
+                <% if (isAdmin) { %>
+
+                    <a
+                        href="/admin/users"
+                        class="btn btn-primary me-2"
+                    >
+                        Manage Users
+                    </a>
+
+                <% } %>
+                
+                <a
+                    href="/logout"
+                    class="btn btn-danger"
+                >
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

@@ -1,20 +1,159 @@
 <!DOCTYPE html>
 <html>
 <head>
+
     <title>MovieVerse</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="display-3">Welcome to MovieVerse 🎬</h1>
 
-        <p class="lead">
-            Your movie review platform.
+    <%- include("includes/navbar") %>
+
+    <div class="container mt-5 text-center">
+
+        <h1 class="display-4">
+            🎬 MovieVerse
+        </h1>
+
+        <p class="lead mt-3">
+            Discover Movies.
+            Share Reviews.
+            See What Others Think.
         </p>
 
-        <button class="btn btn-primary">
-            Explore Movies
-        </button>
+        <a
+            href="/movies"
+            class="btn btn-primary btn-lg mt-3"
+        >
+            Browse Movies
+        </a>
+
+        <% if (!currentUser) { %>
+
+            <a
+                href="/register"
+                class="btn btn-outline-secondary btn-lg mt-3"
+            >
+                Register
+            </a>
+
+        <% } %>
+
     </div>
+
+    <div class="container mt-5">
+
+        <h2 class="text-center">
+            📊 Community Stats
+        </h2>
+
+        <div class="row text-center mt-4">
+
+            <div class="col-md-4">
+
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <h3>
+                            <%= moviesCount %>
+                        </h3>
+
+                        <p>Movies</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <h3>
+                            <%= reviewsCount %>
+                        </h3>
+
+                        <p>Reviews</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <div class="card">
+
+                    <div class="card-body">
+
+                        <h3>
+                            <%= usersCount %>
+                        </h3>
+
+                        <p>Users</p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="container mt-5">
+
+        <h2>
+            🎥 Recently Added Movies
+        </h2>
+
+        <div class="row">
+
+            <% for(let movie of recentMovies) { %>
+
+                <div class="col-md-4">
+
+                    <div class="card mb-3">
+
+                        <div class="card-body">
+
+                            <h5>
+                                <%= movie.title %>
+                            </h5>
+
+                            <p>
+                                <%= movie.genres %>
+                            </p>
+
+                            <a
+                                href="/movies/<%= movie._id %>"
+                                class="btn btn-primary"
+                            >
+                                View
+                            </a>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
 </body>
 </html>

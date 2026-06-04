@@ -1,9 +1,41 @@
 const Movie = require("../models/Movie");
 
 module.exports.index = async (req, res) => {
-    const movies = await Movie.find({});
 
-    res.render("movies/index", { movies });
+    const search = req.query.search;
+
+    let movies;
+
+    if (search) {
+
+        movies = await Movie.find({
+            $or: [
+                {
+                    title: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                },
+                {
+                    genres: {
+                        $regex: search,
+                        $options: "i"
+                    }
+                }
+            ]
+        });
+
+    } else {
+
+        movies = await Movie.find({});
+
+    }
+
+    res.render("movies/index", {
+        movies,
+        search
+    });
+
 };
 
 module.exports.show = async (req, res) => {

@@ -10,24 +10,29 @@ const isReviewAuthor = require(
     "../middleware/isReviewAuthor"
 );
 
+const wrapAsync =
+    require("../utils/wrapAsync");
+
+const canDeleteReview = require("../middleware/canDeleteReview");
+
 router.post(
     "/",
     isLoggedIn,
-    reviewController.createReview
+    wrapAsync(reviewController.createReview)
 );
 
 router.put(
     "/:reviewId",
     isLoggedIn,
-    isReviewAuthor,
-    reviewController.updateReview
+    wrapAsync(isReviewAuthor),
+    wrapAsync(reviewController.updateReview)
 );
 
 router.delete(
     "/:reviewId",
     isLoggedIn,
-    isReviewAuthor,
-    reviewController.deleteReview
+    wrapAsync(canDeleteReview),
+    wrapAsync(reviewController.deleteReview)
 );
 
 module.exports = router;

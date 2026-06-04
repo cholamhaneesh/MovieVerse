@@ -6,6 +6,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+    <%- include("../includes/navbar") %>
 
     <div class="container mt-5">
 
@@ -17,6 +18,31 @@
             Browse Movies
         </p>
 
+        <form
+            action="/movies"
+            method="GET"
+            class="mb-4"
+        >
+
+            <div class="input-group">
+
+                <input
+                    type="text"
+                    name="search"
+                    class="form-control"
+                    placeholder="Search movies or genre..."
+                    value="<%= search || '' %>"
+                >
+
+                <button
+                    class="btn btn-primary"
+                >
+                    Search
+                </button>
+
+            </div>
+
+        </form>
         <hr>
 
         <div class="row">

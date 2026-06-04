@@ -39,3 +39,9 @@ module.exports.logout = (req, res, next) => {
     });
 
 };
+
+module.exports.profile = (req, res) => {
+
+    res.render("auth/profile");
+
+};

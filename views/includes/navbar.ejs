@@ -1,0 +1,70 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+    <div class="container">
+
+        <a
+            class="navbar-brand"
+            href="/"
+        >
+            MovieVerse
+        </a>
+
+        <div class="navbar-nav me-auto">
+
+            <a
+                class="nav-link"
+                href="/movies"
+            >
+                Movies
+            </a>
+
+            <% if (
+                currentUser &&
+                currentUser.role === "admin"
+            ) { %>
+
+                <a
+                    class="nav-link"
+                    href="/movies/new"
+                >
+                    Add Movie
+                </a>
+
+            <% } %>
+
+        </div>
+
+        <div class="navbar-nav">
+
+            <% if (!currentUser) { %>
+
+                <a
+                    class="nav-link"
+                    href="/login"
+                >
+                    Login
+                </a>
+
+                <a
+                    class="nav-link"
+                    href="/register"
+                >
+                    Register
+                </a>
+
+            <% } else { %>
+
+                <a
+                    class="nav-link"
+                    href="/profile"
+                >
+                    👤
+                </a>
+
+            <% } %>
+
+        </div>
+
+    </div>
+
+</nav>
